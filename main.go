@@ -61,12 +61,12 @@ func foo(w http.ResponseWriter, r *http.Request) {
 }
 
 func bar(w http.ResponseWriter, r *http.Request) {
-	var p1 person
+	var people []person
 
-	if err := json.NewDecoder(r.Body).Decode(&p1); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&people); err != nil {
 		log.Println("Decode bad data!", err)
 	}
 
-	log.Println("Person: ", p1)
+	log.Println("Person: ", people)
 
 }
