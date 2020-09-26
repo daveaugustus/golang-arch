@@ -1,6 +1,8 @@
 package main
 
 import (
+	"encoding/json"
+	"log"
 	"net/http"
 )
 
@@ -43,7 +45,19 @@ func main() {
 }
 
 func foo(w http.ResponseWriter, r *http.Request) {
+	p1 := person{
+		First: "Dave",
+	}
 
+	p2 := person{
+		First: "James",
+	}
+
+	xs := []person{p1, p2}
+
+	if err := json.NewEncoder(w).Encode(xs); err != nil {
+		log.Println("Encode bad data!", err)
+	}
 }
 
 func bar(w http.ResponseWriter, r *http.Request) {
