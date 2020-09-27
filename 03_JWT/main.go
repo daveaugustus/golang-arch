@@ -17,6 +17,7 @@ type UserClaims struct {
 	SessionID int64
 }
 
+// Valid sdfsd
 func (u *UserClaims) Valid() error {
 	if !u.VerifyExpiresAt(time.Now().Unix(), true) {
 		return fmt.Errorf("Token has expired")
@@ -76,4 +77,14 @@ func checkSignature(msg, sig []byte) (bool, error) {
 		return false, fmt.Errorf("Error in checkSig: %w", err)
 	}
 	return hmac.Equal(newSig, sig), nil
+}
+
+func createToken(c *UserClaims) (string, error) {
+	t := jwt.NewWithClaims(jwt.SigningMethodHS512, c)
+	signedToken, err := t.SignedString(key)
+	if err != nil {
+		// TODO: Handle the error
+		return "", err
+	}
+	return signedToken, nil
 }
